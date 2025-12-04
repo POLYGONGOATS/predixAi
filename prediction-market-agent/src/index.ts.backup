@@ -1,0 +1,136 @@
+import { Hono } from 'hono';
+import { tool } from 'ai';
+import { createOpenAI } from '@ai-sdk/openai';
+import { z } from 'zod';
+import { systemPrompt } from './prompts';
+import { AiSdkAgent, AIUISDKMessage, AgentEnv, Service } from './nullshot';
+import {
+    getMarketData,
+    analyzePrediction,
+    placePrediction,
+    getUserPortfolio,
+    getMarketHistory,
+} from './mcp/handlers';
+
+// Environment interface for Cloudflare Workers
+interface Env extends AgentEnv {
+    PERPLEXITY_API_KEY: string;
+    AI_PROVIDER: string;
+    ENABLE_TRADES?: string;
+    PREDICTION_AGENT: DurableObjectNamespace;
+}
+
+// Define MCP tools using AI SDK tool format
+const predictionMarketTools = {
+    get_market_data: tool({
+        description: 'Fetch live prediction market data including prices, volume, and liquidity',
+        parameters: z.object({
+            marketId: z.string().describe('The unique identifier for the prediction market'),
+            chain: z.string().default('ethereum').describe('The blockchain network'),
+        }),
+        execute: async ({ marketId, chain }) => {
+            return await getMarketData({ marketId, chain });
+        },
+    }),
+
+    analyze_prediction: tool({
+        description: 'Analyze a prediction market and get AI-powered trading recommendations',
+        parameters: z.object({
+            marketId: z.string().describe('The market to analyze'),
+            userBalance: z.number().describe("User's available balance for trading"),
+            riskTolerance: z.enum(['conservative', 'moderate', 'aggressive']).describe("User's risk tolerance level"),
+        }),
+        execute: async ({ marketId, userBalance, riskTolerance }) => {
+            return await analyzePrediction({ marketId, userBalance, riskTolerance });
+        },
+    }),
+
+    place_prediction: tool({
+        description: 'Execute a prediction market trade (requires user approval)',
+        parameters: z.object({
+            marketId: z.string().describe('The market to trade on'),
+            choice: z.enum(['YES', 'NO']).describe('The prediction choice'),
+            amount: z.number().describe('Amount to invest'),
+            walletAddress: z.string().describe("User's wallet address"),
+        }),
+        execute: async ({ marketId, choice, amount, walletAddress }) => {
+            return await placePrediction({ marketId, choice, amount, walletAddress });
+        },
+    }),
+
+    get_user_portfolio: tool({
+        description: "Retrieve user's current portfolio and positions",
+        parameters: z.object({
+            walletAddress: z.string().describe("User's wallet address"),
+            chain: z.string().default('ethereum').describe('The blockchain network'),
+        }),
+        execute: async ({ walletAddress, chain }) => {
+            return await getUserPortfolio({ walletAddress, chain });
+        },
+    }),
+
+    get_market_history: tool({
+        description: 'Get historical price and volume data for a prediction market',
+        parameters: z.object({
+            marketId: z.string().describe('The market to get history for'),
+            days: z.number().default(7).describe('Number of days of history to retrieve'),
+            chain: z.string().default('ethereum').describe('The blockchain network'),
+        }),
+        execute: async ({ marketId, days, chain }) => {
+            return await getMarketHistory({ marketId, days, chain });
+        },
+    }),
+};
+
+// Prediction Market Agent extending Nullshot AiSdkAgent
+export class PredictionMarketAgent extends AiSdkAgent<Env> {
+    constructor(state: DurableObjectState, env: Env) {
+        // Create Perplexity AI provider using OpenAI-compatible endpoint
+        system: systemPrompt,
+            tools: predictionMarketTools,
+                maxSteps: 10,
+                    experimental_toolCallStreaming: true,
+                        onError: (error: unknown) => {
+                            console.error('Error processing message', error);
+                        },
+        });
+
+        return result.toDataStreamResponse();
+    }
+}
+
+// Create Hono app for routing
+const app = new Hono<{ Bindings: Env }>();
+
+// Main route - redirect to agent
+app.post('/agent/:sessionId', async (c) => {
+    const sessionId = c.req.param('sessionId');
+    const id = c.env.PREDICTION_AGENT.idFromName(sessionId);
+    const stub = c.env.PREDICTION_AGENT.get(id);
+
+    // Forward request to Durable Object
+    const forwardRequest = new Request(`https://internal.com/agent/chat/${sessionId}`, {
+        method: c.req.method,
+        body: c.req.raw.body,
+        headers: c.req.raw.headers,
+    });
+
+    return stub.fetch(forwardRequest);
+});
+
+app.get('/', (c) => {
+    return c.json({
+        name: 'Prediction Market AI Agent',
+        description: 'AI-powered prediction market trading agent using Nullshot Framework',
+        version: '1.0.0',
+        framework: 'Nullshot AiSdkAgent',
+        aiProvider: 'Perplexity Sonar (Online)',
+        endpoints: {
+            chat: 'POST /agent/:sessionId',
+        },
+    });
+});
+
+export default {
+    fetch: app.fetch,
+};

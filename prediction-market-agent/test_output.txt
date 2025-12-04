@@ -1,0 +1,8 @@
+Testing: closed=false
+[closed=false] Total: 5, Closed: 5
+Testing: keep_closed_markets=false
+[keep_closed_markets=false] No events
+Testing: events_status=active
+[events_status=active] Total: 6, Closed: 1
+Checking market ID: 239676
+- Found: Will Bitcoin ($BTC) price be above $60,000 at noon on December 7, 2021? (Active: true, Closed: true)

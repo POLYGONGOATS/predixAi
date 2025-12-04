@@ -1,0 +1,147 @@
+{
+    "mcpServers": {
+        "prediction-market-tools": {
+            "command": "node",
+            "args": [
+                "dist/mcp-server/index.js"
+            ],
+            "env": {},
+            "tools": [
+                {
+                    "name": "get_market_data",
+                    "description": "Fetch live prediction market data including prices, volume, and liquidity",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "marketId": {
+                                "type": "string",
+                                "description": "The unique identifier for the prediction market"
+                            },
+                            "chain": {
+                                "type": "string",
+                                "description": "The blockchain network (e.g., 'ethereum', 'bsc', 'polygon')",
+                                "default": "ethereum"
+                            }
+                        },
+                        "required": [
+                            "marketId"
+                        ]
+                    }
+                },
+                {
+                    "name": "analyze_prediction",
+                    "description": "Analyze a prediction market and get AI-powered trading recommendations",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "marketId": {
+                                "type": "string",
+                                "description": "The market to analyze"
+                            },
+                            "userBalance": {
+                                "type": "number",
+                                "description": "User's available balance for trading"
+                            },
+                            "riskTolerance": {
+                                "type": "string",
+                                "enum": [
+                                    "conservative",
+                                    "moderate",
+                                    "aggressive"
+                                ],
+                                "description": "User's risk tolerance level"
+                            }
+                        },
+                        "required": [
+                            "marketId",
+                            "userBalance",
+                            "riskTolerance"
+                        ]
+                    }
+                },
+                {
+                    "name": "place_prediction",
+                    "description": "Execute a prediction market trade (requires user approval)",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "marketId": {
+                                "type": "string",
+                                "description": "The market to trade on"
+                            },
+                            "choice": {
+                                "type": "string",
+                                "enum": [
+                                    "YES",
+                                    "NO"
+                                ],
+                                "description": "The prediction choice"
+                            },
+                            "amount": {
+                                "type": "number",
+                                "description": "Amount to invest"
+                            },
+                            "walletAddress": {
+                                "type": "string",
+                                "description": "User's wallet address"
+                            }
+                        },
+                        "required": [
+                            "marketId",
+                            "choice",
+                            "amount",
+                            "walletAddress"
+                        ]
+                    }
+                },
+                {
+                    "name": "get_user_portfolio",
+                    "description": "Retrieve user's current portfolio and positions",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "walletAddress": {
+                                "type": "string",
+                                "description": "User's wallet address"
+                            },
+                            "chain": {
+                                "type": "string",
+                                "description": "The blockchain network",
+                                "default": "ethereum"
+                            }
+                        },
+                        "required": [
+                            "walletAddress"
+                        ]
+                    }
+                },
+                {
+                    "name": "get_market_history",
+                    "description": "Get historical price and volume data for a prediction market",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "marketId": {
+                                "type": "string",
+                                "description": "The market to get history for"
+                            },
+                            "days": {
+                                "type": "number",
+                                "description": "Number of days of history to retrieve",
+                                "default": 7
+                            },
+                            "chain": {
+                                "type": "string",
+                                "description": "The blockchain network",
+                                "default": "ethereum"
+                            }
+                        },
+                        "required": [
+                            "marketId"
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}

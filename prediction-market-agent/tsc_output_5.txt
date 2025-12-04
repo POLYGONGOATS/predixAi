@@ -1,0 +1,18 @@
+﻿src/index.ts(37,9): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Type '({ marketId, chain }: { marketId: string; chain: string; }) => Promise<{ query: string; count: number; markets: { marketId: string; question: string; description: string; outcomes: string[]; prices: number[]; volume: number; liquidity: number; endDate: string; active: boolean; }[]; }>' is not assignable to type 'undefined'.
+src/index.ts(46,9): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Type '({ marketId, userBalance, riskTolerance }: z.infer<typeof analyzePredictionParams>) => Promise<{ marketId: string; recommendation: string; confidence: number; suggestedAmount: number; expectedRoi: number; riskLevel: string; reasoning: string; marketQuestion: string; }>' is not assignable to type 'undefined'.
+src/index.ts(59,9): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Type '({ marketId, choice, amount, walletAddress }: { marketId: string; choice: "YES" | "NO"; amount: number; walletAddress: string; }) => Promise<{ success: boolean; transactionHash: string; marketId: string; choice: "YES" | "NO"; amount: number; walletAddress: string; status: string; message: string; }>' is not assignable to type 'undefined'.
+src/index.ts(70,9): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Type '({ walletAddress, chain }: { walletAddress: string; chain: string; }) => Promise<{ walletAddress: string; chain: string; totalValue: number; activePositions: Position[] | { marketId: string; choice: string; ... 5 more ...; pnlPercentage: number; }[]; totalPnL: number; totalPnLPercentage: number; }>' is not assignable to type 'undefined'.
+src/index.ts(82,9): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Type '({ marketId, days, chain }: { marketId: string; days: number; chain: string; }) => Promise<{ marketId: string; chain: string; history: MarketHistory[]; trend: string; volatility: number; }>' is not assignable to type 'undefined'.
+src/services/polymarket.ts(52,42): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'any[]'.
+src/services/polymarket.ts(96,20): error TS18046: 'data' is of type 'unknown'.
+src/services/polymarket.ts(117,20): error TS18046: 'data' is of type 'unknown'.
