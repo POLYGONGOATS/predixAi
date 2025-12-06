@@ -1,3 +1,5 @@
+'use client';
+
 import ChatInterface from '@/components/ChatInterface';
 import { WalletConnect } from '@/components/WalletConnect';
 import FuzzyText from '@/components/FuzzyText';
