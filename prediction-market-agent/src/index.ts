@@ -292,7 +292,15 @@ app.post('/agent/session', async (c) => {
             },
         });
 
-        return stub.fetch(forwardRequest);
+        const response = await stub.fetch(forwardRequest);
+
+        // Clone the response and add CORS headers explicitly
+        const newResponse = new Response(response.body, response);
+        newResponse.headers.set('Access-Control-Allow-Origin', '*');
+        newResponse.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        newResponse.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+        return newResponse;
     } catch (error) {
         console.error('Error in /agent/session route:', error);
         return c.json({ error: 'Internal server error', details: error instanceof Error ? error.message : String(error) }, 500);
