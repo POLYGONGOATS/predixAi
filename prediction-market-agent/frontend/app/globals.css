@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'PerfectDark';
+  src: url('/fonts/pdark.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ethnocentric';
+  src: url('/fonts/ethnocentric/tt/ethnocentric rg.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   /* Cyberpunk color scheme */
   --background: #0a1a1f;
@@ -463,4 +477,23 @@ body {
 .effect-3d {
   transform-style: preserve-3d;
   perspective: 1000px;
+}
+
+/* Circuit Board Dot Animation */
+@keyframes circuit-pulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 2px rgba(20, 184, 166, 0.5));
+  }
+
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(20, 184, 166, 1));
+  }
+}
+
+.circuit-dot {
+  animation: circuit-pulse 3s ease-in-out infinite;
 }

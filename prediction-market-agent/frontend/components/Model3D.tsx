@@ -50,7 +50,7 @@ function Model({ modelPath, mousePosition }: { modelPath: string; mousePosition:
     }
 
     useFrame(() => {
-        const targetRotationX = mousePosition.y * 0.2;
+        const targetRotationX = -mousePosition.y * 0.2;
         const targetRotationY = mousePosition.x * 0.3;
 
         // If we found specific bones, rotate them
@@ -124,22 +124,7 @@ export default function Model3D({ modelPath = '/model.glb' }: { modelPath?: stri
             className="relative w-full max-w-2xl mx-auto h-[500px]"
             onMouseMove={handleMouseMove}
         >
-            {/* Golden Triangle Frame */}
-            {/* <div
-                className="absolute inset-0 floating"
-                style={{
-                    clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
-                    border: '4px solid #fbbf24',
-                    boxShadow: `
-                        0 0 40px rgba(251, 191, 36, 0.6),
-                        0 0 80px rgba(251, 191, 36, 0.4),
-                        inset 0 0 40px rgba(251, 191, 36, 0.2)
-                    `,
-                    animationDuration: '8s',
-                    background: 'transparent',
-                    zIndex: 1
-                }}
-            /> */}
+
 
             {/* 3D Model Canvas */}
             <div className="relative z-10 w-full h-full">
@@ -161,8 +146,8 @@ export default function Model3D({ modelPath = '/model.glb' }: { modelPath?: stri
                     </Suspense>
 
                     <OrbitControls
-                        // enableZoom={true}
-                        autoRotate={false}
+                        enableZoom={false}
+                        enableRotate={false}
                         enablePan={false}
                         minDistance={2}
                         maxDistance={15}

@@ -2,6 +2,8 @@ import Link from 'next/link';
 import CityScapeBackground from '../components/CityScapeBackground';
 import Model3D from '../components/Model3D';
 import CircuitBoardLayout from '../components/CircuitBoardLayout';
+import PredixParticles from '../components/PredixParticles';
+import HackerButton from '../components/HackerButton';
 
 export default function Home() {
   return (
@@ -35,6 +37,11 @@ export default function Home() {
             {/* Cyberpunk Hero Element with integrated title */}
             <Model3D modelPath="/model.glb" />
 
+            {/* Particles and Text */}
+            <div className="-mt-20 mb-8 relative z-20">
+              <PredixParticles />
+            </div>
+
             {/* Description */}
             <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed mt-12">
               The first AI-agent powered prediction market interface.
@@ -45,20 +52,20 @@ export default function Home() {
           {/* Fixed CTA Buttons - Left and Right Middle */}
           <div className="fixed inset-0 pointer-events-none z-30 flex items-center justify-between px-8">
             {/* Left Button - Launch Agent */}
-            <Link
+            <HackerButton
               href="/chat"
-              className="pointer-events-auto px-10 py-5 rounded-full bg-teal-500/5 backdrop-blur-lg border-2 border-teal-500/40 hover:bg-teal-500/10 hover:border-teal-500/60  font-bold text-lg transition-all transform hover:scale-105"
-            >
-              Launch Agent
-            </Link>
+              text="Launch Agent"
+              className="pointer-events-auto px-10 py-5 bg-teal-500/5 backdrop-blur-lg border-2 border-teal-500/40 hover:bg-teal-500/10 hover:border-cyan-500/90 hover:shadow-[0_0_40px_rgba(6,182,212,0.6),0_0_70px_rgba(6,182,212,0.4)] text-lg transition-all transform hover:scale-105"
+              style={{ fontFamily: '"Ethnocentric", sans-serif' }}
+            />
 
             {/* Right Button - View Markets */}
-            <Link
+            <HackerButton
               href="/markets"
-              className="pointer-events-auto px-10 py-5 rounded-full bg-teal-500/5 backdrop-blur-lg border-2 border-teal-500/40 hover:bg-teal-500/10 hover:border-cyan-500/90 hover:shadow-[0_0_40px_rgba(6,182,212,0.6),0_0_70px_rgba(6,182,212,0.4)] text-lg transition-all transform hover:scale-105"
-            >
-              View Markets
-            </Link>
+              text="View Markets"
+              className="pointer-events-auto px-10 py-5 bg-teal-500/5 backdrop-blur-lg border-2 border-teal-500/40 hover:bg-teal-500/10 hover:border-cyan-500/90 hover:shadow-[0_0_40px_rgba(6,182,212,0.6),0_0_70px_rgba(6,182,212,0.4)] text-lg transition-all transform hover:scale-105"
+              style={{ fontFamily: '"Ethnocentric", sans-serif' }}
+            />
           </div>
 
           {/* Floating Terminal Visual */}
@@ -104,31 +111,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Stats */}
-        {/* <section className="py-20 px-6 relative">
-          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center relative z-10">
-            <div className="p-8 bg-teal-500/8 backdrop-blur-[20px] border-2 border-teal-500/50 rounded-2xl shadow-[0_8px_32px_0_rgba(20,184,166,0.3)] hover:shadow-[0_0_50px_rgba(236,72,153,0.5),0_0_80px_rgba(236,72,153,0.3)] transition-all duration-300 opacity-0 animate-[fadeIn_0.6s_ease-out_forwards]">
-              <div className="text-5xl font-black mb-4">
-                <GlitchText className="text-5xl">
-                  $450M+
-                </GlitchText>
-              </div>
-              <div className="text-gray-400 font-mono">Total Volume</div>
-            </div>
-            <div className="p-8 bg-teal-500/8 backdrop-blur-[20px] border-2 border-teal-500/50 rounded-2xl shadow-[0_8px_32px_0_rgba(20,184,166,0.3)] hover:shadow-[0_0_30px_rgba(20,184,166,0.5),0_0_50px_rgba(20,184,166,0.3)] transition-all duration-300 opacity-0 animate-[fadeIn_0.6s_ease-out_0.1s_forwards]">
-              <div className="text-5xl font-black mb-4 text-cyan-400">
-                50k+
-              </div>
-              <div className="text-gray-400 font-mono">Active Traders</div>
-            </div>
-            <div className="p-8 bg-teal-500/8 backdrop-blur-[20px] border-2 border-teal-500/50 rounded-2xl shadow-[0_8px_32px_0_rgba(20,184,166,0.3)] hover:shadow-[0_0_50px_rgba(236,72,153,0.5),0_0_80px_rgba(236,72,153,0.3)] transition-all duration-300 opacity-0 animate-[fadeIn_0.6s_ease-out_0.2s_forwards]">
-              <div className="text-5xl font-black mb-4 text-pink-400">
-                24/7
-              </div>
-              <div className="text-gray-400 font-mono">AI Uptime</div>
-            </div>
-          </div>
-        </section> */}
 
         {/* Features */}
         <section className="px-6 py-20 relative">

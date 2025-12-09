@@ -34,20 +34,20 @@ export default function CircuitBoardLayout({ children }: { children: React.React
                     <line x1="180" y1="200" x2="80" y2="200" stroke="#14b8a6" strokeWidth="2" opacity="0.5" />
 
                     {/* Circuit dots */}
-                    <circle cx="200" cy="80" r="4" fill="#14b8a6" opacity="0.8" />
-                    <circle cx="220" cy="100" r="4" fill="#14b8a6" opacity="0.6" />
-                    <circle cx="180" cy="120" r="4" fill="#14b8a6" opacity="0.7" />
-                    <circle cx="200" cy="180" r="4" fill="#14b8a6" opacity="0.8" />
-                    <circle cx="220" cy="160" r="4" fill="#14b8a6" opacity="0.6" />
-                    <circle cx="180" cy="200" r="4" fill="#14b8a6" opacity="0.7" />
-                    <circle cx="100" cy="180" r="4" fill="#14b8a6" opacity="0.8" />
-                    <circle cx="120" cy="160" r="4" fill="#14b8a6" opacity="0.6" />
-                    <circle cx="80" cy="200" r="4" fill="#14b8a6" opacity="0.7" />
+                    <circle cx="200" cy="80" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0s' }} />
+                    <circle cx="220" cy="100" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.5s' }} />
+                    <circle cx="180" cy="120" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '1s' }} />
+                    <circle cx="200" cy="180" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '1.5s' }} />
+                    <circle cx="220" cy="160" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.2s' }} />
+                    <circle cx="180" cy="200" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.7s' }} />
+                    <circle cx="100" cy="180" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '1.2s' }} />
+                    <circle cx="120" cy="160" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.3s' }} />
+                    <circle cx="80" cy="200" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.8s' }} />
 
                     {/* Small decorative dots */}
-                    <circle cx="350" cy="80" r="2" fill="#06b6d4" opacity="0.5" />
-                    <circle cx="370" cy="100" r="2" fill="#06b6d4" opacity="0.5" />
-                    <circle cx="330" cy="120" r="2" fill="#06b6d4" opacity="0.5" />
+                    <circle cx="350" cy="80" r="2" fill="#06b6d4" className="circuit-dot" style={{ animationDelay: '2s' }} />
+                    <circle cx="370" cy="100" r="2" fill="#06b6d4" className="circuit-dot" style={{ animationDelay: '2.5s' }} />
+                    <circle cx="330" cy="120" r="2" fill="#06b6d4" className="circuit-dot" style={{ animationDelay: '1.8s' }} />
                 </svg>
 
                 {/* Top Left Corner Circuit Pattern */}
@@ -63,12 +63,12 @@ export default function CircuitBoardLayout({ children }: { children: React.React
                     <line x1="220" y1="120" x2="220" y2="200" stroke="#14b8a6" strokeWidth="2" opacity="0.5" />
 
                     {/* Circuit dots */}
-                    <circle cx="200" cy="80" r="4" fill="#14b8a6" opacity="0.8" />
-                    <circle cx="180" cy="100" r="4" fill="#14b8a6" opacity="0.6" />
-                    <circle cx="220" cy="120" r="4" fill="#14b8a6" opacity="0.7" />
-                    <circle cx="200" cy="180" r="4" fill="#14b8a6" opacity="0.8" />
-                    <circle cx="180" cy="160" r="4" fill="#14b8a6" opacity="0.6" />
-                    <circle cx="220" cy="200" r="4" fill="#14b8a6" opacity="0.7" />
+                    <circle cx="200" cy="80" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.4s' }} />
+                    <circle cx="180" cy="100" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.9s' }} />
+                    <circle cx="220" cy="120" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '1.4s' }} />
+                    <circle cx="200" cy="180" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.1s' }} />
+                    <circle cx="180" cy="160" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.6s' }} />
+                    <circle cx="220" cy="200" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '1.1s' }} />
                 </svg>
 
                 {/* Bottom Right Corner Circuit Pattern */}
@@ -83,9 +83,9 @@ export default function CircuitBoardLayout({ children }: { children: React.React
                     <line x1="220" y1="150" x2="220" y2="90" stroke="#14b8a6" strokeWidth="2" opacity="0.4" />
 
                     {/* Circuit dots */}
-                    <circle cx="200" cy="170" r="4" fill="#14b8a6" opacity="0.8" />
-                    <circle cx="220" cy="150" r="4" fill="#14b8a6" opacity="0.6" />
-                    <circle cx="180" cy="130" r="4" fill="#14b8a6" opacity="0.7" />
+                    <circle cx="200" cy="170" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.3s' }} />
+                    <circle cx="220" cy="150" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.8s' }} />
+                    <circle cx="180" cy="130" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '1.3s' }} />
                 </svg>
 
                 {/* Bottom Left Corner Circuit Pattern */}
@@ -100,9 +100,9 @@ export default function CircuitBoardLayout({ children }: { children: React.React
                     <line x1="180" y1="150" x2="180" y2="90" stroke="#14b8a6" strokeWidth="2" opacity="0.4" />
 
                     {/* Circuit dots */}
-                    <circle cx="200" cy="170" r="4" fill="#14b8a6" opacity="0.8" />
-                    <circle cx="180" cy="150" r="4" fill="#14b8a6" opacity="0.6" />
-                    <circle cx="220" cy="130" r="4" fill="#14b8a6" opacity="0.7" />
+                    <circle cx="200" cy="170" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.2s' }} />
+                    <circle cx="180" cy="150" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '0.7s' }} />
+                    <circle cx="220" cy="130" r="4" fill="#14b8a6" className="circuit-dot" style={{ animationDelay: '1.2s' }} />
                 </svg>
             </div>
 

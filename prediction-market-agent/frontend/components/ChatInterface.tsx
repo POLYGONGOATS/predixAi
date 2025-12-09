@@ -135,10 +135,13 @@ export default function ChatInterface() {
 
             console.log('Sending messages to backend:', JSON.stringify(recentMessages, null, 2));
 
+            // Use environment variable for production, fallback to deployed backend
+            const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://backend.gopredix.xyz';
+
             let response;
             try {
                 // Attempt 1: Send with history
-                response = await fetch('http://127.0.0.1:8787/agent/frontend-session', {
+                response = await fetch(`${BACKEND_URL}/agent/session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -155,7 +158,7 @@ export default function ChatInterface() {
             } catch (historyError) {
                 console.warn('Failed to send history, retrying with latest message only:', historyError);
                 // Attempt 2: Fallback to latest message only
-                response = await fetch('http://127.0.0.1:8787/agent/frontend-session', {
+                response = await fetch(`${BACKEND_URL}/agent/session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -267,7 +270,7 @@ export default function ChatInterface() {
     return (
         <div className="flex flex-col h-full w-full">
             {/* Header */}
-            <div className="px-6 py-4 border-b border-white/10 bg-black/20 backdrop-blur-xl">
+            <div className="px-6 py-4 border-b border-white/10 bg-black/30 backdrop-blur-xl">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-500 to-purple-600 bg-clip-text text-transparent">
@@ -288,7 +291,7 @@ export default function ChatInterface() {
             </div>
 
             {/* Quick Actions */}
-            <div className="flex gap-3 px-6 py-3 overflow-x-auto border-b border-white/5 bg-black/10">
+            <div className="flex gap-3 px-6 py-3 overflow-x-auto border-b border-white/5 bg-black/20">
                 {quickActions.map((action, i) => (
                     <button
                         key={i}
@@ -368,7 +371,7 @@ export default function ChatInterface() {
             </div>
 
             {/* Input */}
-            <div className="px-6 py-4 border-t border-white/10 bg-black/20 backdrop-blur-xl">
+            <div className="px-6 py-4 border-t border-white/10 bg-black/30 backdrop-blur-xl">
                 <div className="flex gap-3">
                     <input
                         type="text"
