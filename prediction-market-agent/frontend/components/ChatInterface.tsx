@@ -5,7 +5,6 @@ import { useAccount, useSendTransaction } from 'wagmi';
 import MarketList from './MarketList';
 import AnalysisCard, { AnalysisResult } from './AnalysisCard';
 import { WalletConnect } from './WalletConnect';
-import Navbar from './Navbar';
 
 interface MessageData {
     markets?: any[];
@@ -136,10 +135,13 @@ export default function ChatInterface() {
 
             console.log('Sending messages to backend:', JSON.stringify(recentMessages, null, 2));
 
+            // Use environment variable for production, fallback to deployed backend
+            const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://backend.gopredix.xyz';
+
             let response;
             try {
                 // Attempt 1: Send with history
-                response = await fetch('http://127.0.0.1:8787/agent/frontend-session', {
+                response = await fetch(`${BACKEND_URL}/agent/session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -156,7 +158,7 @@ export default function ChatInterface() {
             } catch (historyError) {
                 console.warn('Failed to send history, retrying with latest message only:', historyError);
                 // Attempt 2: Fallback to latest message only
-                response = await fetch('http://127.0.0.1:8787/agent/frontend-session', {
+                response = await fetch(`${BACKEND_URL}/agent/session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -266,28 +268,35 @@ export default function ChatInterface() {
     };
 
     return (
-        <div
-            className="flex flex-col h-full w-full z-50 relative pt-20"
-            style={{
-                backgroundImage: 'url(/background.png)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundAttachment: 'fixed'
-            }}
-        >
-            {/* Overlay for better text readability */}
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-0"></div>
-
-            <Navbar />
+        <div className="flex flex-col h-full w-full">
+            {/* Header */}
+            <div className="px-6 py-4 border-b border-white/10 bg-black/30 backdrop-blur-xl">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-500 to-purple-600 bg-clip-text text-transparent">
+                            AI Trading Assistant
+                        </h1>
+                        <button
+                            onClick={clearHistory}
+                            className="text-xs px-3 py-1 rounded-full glass hover:glass-strong text-gray-400 hover:text-white transition-all"
+                            title="Clear chat history"
+                        >
+                            Clear History
+                        </button>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <WalletConnect />
+                    </div>
+                </div>
+            </div>
 
             {/* Quick Actions */}
-            <div className="flex items-center justify-center gap-3 px-6 py-3 overflow-x-auto border-b border-white/5 bg-black/5 backdrop-blur-sm relative z-10">
+            <div className="flex gap-3 px-6 py-3 overflow-x-auto border-b border-white/5 bg-black/20">
                 {quickActions.map((action, i) => (
                     <button
                         key={i}
                         onClick={() => sendMessage(action.substring(2))}
-                        className="px-4 py-2 rounded-full bg-black/30 backdrop-blur-md hover:bg-black/40 border border-white/20 text-sm whitespace-nowrap transition-all transform hover:scale-105 shimmer-hover text-white"
+                        className="px-4 py-2 rounded-full glass hover:glass-strong text-sm whitespace-nowrap transition-all transform hover:scale-105 shimmer-hover border border-white/10"
                     >
                         {action}
                     </button>
@@ -295,7 +304,7 @@ export default function ChatInterface() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6 relative z-10">
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
                 {messages.map((message, i) => (
                     <div
                         key={i}
@@ -303,9 +312,9 @@ export default function ChatInterface() {
                         style={{ animationDelay: `${i * 0.05}s` }}
                     >
                         <div
-                            className={`max-w-[85%] p-4 backdrop-blur-md ${message.role === 'user'
-                                ? 'rounded-2xl bg-cyan-500/20 backdrop-blur-xl text-white border border-cyan-400/30 shadow-[0_0_20px_rgba(34,211,238,0.3)]'
-                                : 'bg-teal-500/5 border-2 border-teal-500/40 text-white shadow-[0_0_15px_rgba(20,184,166,0.3)] backdrop-blur-lg'
+                            className={`max-w-[85%] rounded-2xl p-4 ${message.role === 'user'
+                                ? 'bg-gradient-to-r from-primary-500 to-purple-600 text-white shadow-lg shadow-cyan-500/30'
+                                : 'glass-premium border border-white/10'
                                 }`}
                         >
                             <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
@@ -331,7 +340,7 @@ export default function ChatInterface() {
                             )}
 
                             {message.data && message.data.transactionHash && (
-                                <div className="mt-4 p-3 bg-green-500/20 border border-green-500/50 rounded-lg backdrop-blur-sm">
+                                <div className="mt-4 p-3 bg-green-500/20 border border-green-500/50 rounded-lg">
                                     <div className="flex items-center gap-2 text-green-400 font-bold mb-1">
                                         <span>✅ Trade Executed Successfully</span>
                                     </div>
@@ -349,7 +358,7 @@ export default function ChatInterface() {
                 ))}
                 {isLoading && (
                     <div className="flex justify-start fade-in">
-                        <div className="bg-black/40 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                        <div className="glass-premium rounded-2xl p-4 border border-white/10">
                             <div className="flex gap-2">
                                 <div className="w-2 h-2 rounded-full bg-primary-500 animate-pulse pulse-glow"></div>
                                 <div className="w-2 h-2 rounded-full bg-primary-500 animate-pulse delay-75 pulse-glow"></div>
@@ -362,7 +371,7 @@ export default function ChatInterface() {
             </div>
 
             {/* Input */}
-            <div className="px-6 py-4 border-t border-white/10 bg-black/10 backdrop-blur-md relative z-10">
+            <div className="px-6 py-4 border-t border-white/10 bg-black/30 backdrop-blur-xl">
                 <div className="flex gap-3">
                     <input
                         type="text"
@@ -370,7 +379,7 @@ export default function ChatInterface() {
                         onChange={(e) => setInput(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
                         placeholder="Ask about prediction markets..."
-                        className="flex-1 px-6 py-4 rounded-full bg-black/30 backdrop-blur-md border border-white/20 focus:border-primary-500 outline-none transition-all input-glow text-white placeholder-gray-400"
+                        className="flex-1 px-6 py-4 rounded-full glass border border-white/20 focus:border-primary-500 outline-none transition-all input-glow"
                         disabled={isLoading}
                     />
                     <button
