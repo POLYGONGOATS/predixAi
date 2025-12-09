@@ -86,7 +86,7 @@ export class PolymarketClient {
                 throw new Error(`Polymarket API error: ${response.statusText}`);
             }
 
-            const data = await response.json();
+            const data = await response.json() as any;
             return this.transformMarket(data);
         } catch (error) {
             console.error('Error fetching market:', error);
@@ -110,7 +110,7 @@ export class PolymarketClient {
                 throw new Error(`Polymarket API error: ${response.statusText}`);
             }
 
-            const data = await response.json();
+            const data = await response.json() as { history?: MarketHistory[] };
             return data.history || [];
         } catch (error) {
             console.error('Error fetching market history:', error);
@@ -131,7 +131,7 @@ export class PolymarketClient {
                 throw new Error(`Polymarket API error: ${response.statusText}`);
             }
 
-            const data = await response.json();
+            const data = await response.json() as { positions?: Position[] };
             return data.positions || [];
         } catch (error) {
             console.error('Error fetching positions:', error);

@@ -1,6 +1,7 @@
 /// <reference types="@cloudflare/workers-types" />
 
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 import { HTTPException } from 'hono/http-exception';
 import { AgentEnv } from './env';
 import { Service, isExternalService } from './service';
@@ -54,6 +55,14 @@ export abstract class NullShotAgent<ENV extends AgentEnv, MESSAGE extends any = 
      * Setup Hono routes
      */
     protected setupRoutes(app: Hono<{ Bindings: ENV }>) {
+        // Add CORS middleware to handle preflight requests
+        app.use('*', cors({
+            origin: '*',
+            allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+            allowHeaders: ['Content-Type', 'Authorization'],
+            maxAge: 86400,
+        }));
+
         // Message processing route with sessionId as URL parameter
         app.post('/agent/chat/:sessionId', async (c) => {
             try {

@@ -274,19 +274,19 @@ app.use('*', cors({
 }));
 
 // Main route - redirect to agent
-app.post('/agent/:sessionId', async (c) => {
+app.post('/agent/session', async (c) => {
     try {
-        const sessionId = c.req.param('sessionId');
+        // Get session ID from request body
+        const body = await c.req.json();
+        const sessionId = body.id || 'default-session';
+
         const id = c.env.PREDICTION_AGENT.idFromName(sessionId);
         const stub = c.env.PREDICTION_AGENT.get(id);
 
-        // Read the request body first to prevent it from being consumed
-        const body = await c.req.text();
-
-        // Forward request to Durable Object with fresh body
+        // Forward request to Durable Object
         const forwardRequest = new Request(`https://internal.com/agent/chat/${sessionId}`, {
             method: 'POST',
-            body: body,
+            body: JSON.stringify(body),
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -294,7 +294,7 @@ app.post('/agent/:sessionId', async (c) => {
 
         return stub.fetch(forwardRequest);
     } catch (error) {
-        console.error('Error in /agent/:sessionId route:', error);
+        console.error('Error in /agent/session route:', error);
         return c.json({ error: 'Internal server error', details: error instanceof Error ? error.message : String(error) }, 500);
     }
 });
@@ -307,7 +307,7 @@ app.get('/', (c) => {
         framework: 'Nullshot AiSdkAgent',
         aiProvider: 'Perplexity Sonar (Online)',
         endpoints: {
-            chat: 'POST /agent/:sessionId',
+            chat: 'POST /agent/session',
         },
     });
 });
